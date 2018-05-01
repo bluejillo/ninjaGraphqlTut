@@ -1,1 +1,0 @@
-module.exports = 'mongodb://blueninja:d00dl3d00@ds111050.mlab.com:11050/ninjatut';
