@@ -1,12 +1,14 @@
 const graphql = require('graphql');
 const _ = require('lodash');
 
-const {GraphQLObjectType, GraphQLString, GraphQLSchema, GraphQLID, GraphQLInt} = graphql;
+const {GraphQLObjectType, GraphQLString, GraphQLSchema, GraphQLID, GraphQLInt, GraphQLList} = graphql;
 
 const books = [
 	{name: 'book 1', genre: 'fantasy', id:'b1', authorId: '1'},
 	{name: 'book 2', genre: 'self help', id:'b2', authorId: '2'},
-	{name: 'book 3', genre: 'sci-fi', id:'b3', authorId: '3'}
+	{name: 'book 3', genre: 'sci-fi', id:'b3', authorId: '3'},
+	{name: 'book 4', genre: 'sci-fi', id:'b4', authorId: '3'},
+	{name: 'book 5', genre: 'sci-fi', id:'b5', authorId: '2'}
 
 ];
 
@@ -18,10 +20,18 @@ const authors = [
 
 const AuthorType = new GraphQLObjectType({
 	name: 'Author',
+	//we wrap fields in a function because it will wait until its read the whole file before it executes 
+	//otherwise it will never find BookType or AuthorType
 	fields: () => ({
 		name: {type: GraphQLString},
 		age: {type: GraphQLInt},
-		id: {type: GraphQLID}
+		id: {type: GraphQLID},
+		books: {
+			type: new GraphQLList(BookType),
+			resolve(parent, args){
+				return _.filter(books, {authorId: parent.id});
+			}
+		}
 	})
 });
 
