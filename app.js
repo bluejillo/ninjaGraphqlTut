@@ -30,7 +30,7 @@ app.use('/graphql', graphqlHTTP({
 
 //create a few books in your mongoDB and then hit this url: http://localhost:4200/graphql2?query={books{name%20genre}}
 app.use('/graphql2', graphqlHTTP({
-	schema: mlabSchema.books
+	schema: mlabSchema
 }));
 // --
 
